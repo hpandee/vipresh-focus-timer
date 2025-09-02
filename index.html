@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronosFlow - Royal Vintage Productivity Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Crimson Text', 'Times New Roman', serif;
+        }
+        
+        body {
+            background: hsl(105, 40%, 10%) url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235a3826' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+            color: #f5e6d0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(139, 69, 19, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #e0b354;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            font-style: italic;
+            color: #d4af37;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        
+        .app-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .app-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .clock-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: top;
+        }
+        
+        .tools-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .card {
+            background: rgba(139, 69, 19, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #e0b354;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        /* Vintage Clock Styles */
+        .clock-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 20px auto;
+        }
+        
+        .clock-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8b5a2b, #daa520);
+            border: 20px solid #7a4f25;
+            border-radius: 50%;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(0, 0, 0, 0.8);
+        }
+        
+        .clock-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 92%;
+            height: 92%;
+            background: #f0e6d2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.4);
+        }
+        
+        .clock-inner::after {
+            content: '';
+            position: absolute;
+            width: 96%;
+            height: 96%;
+            border-radius: 50%;
+            border: 2px solid rgba(139, 69, 19, 0.2);
+        }
+        
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            z-index: 2;
+        }
+        
+        .hour-hand {
+            width: 10px;
+            height: 70px;
+            background: #333;
+            transform: translateX(-50%) rotate(0deg);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .minute-hand {
+            width: 7px;
+            height: 100px;
+            background: #555;
+            transform: translateX(-50%) rotate(0deg);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .second-hand {
+            width: 3px;
+            height: 120px;
+            background: #a52a2a;
+            transform: translateX(-50%) rotate(0deg);
+        }
+        
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            background: #333;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 2px solid #daa520;
+        }
+        
+        .clock-brand {
+            position: absolute;
+            top: 40%;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #7a4f25;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            letter-spacing: 2px;
+        }
+        
+        .digital-time {
+            margin-top: 25px;
+            font-size: 2rem;
+            text-align: center;
+            color: #e0b354;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            background: rgba(139, 69, 19, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        /* Timer Styles */
+        .timer-display {
+            font-size: 3.2rem;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Cinzel', monospace;
+            color: #e0b354;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #daa520, #8b5a2b);
+            color: #2c1810;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to bottom, #e0b354, #9c6c3a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to bottom, #d44, #822);
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(to bottom, #f55, #a33);
+        }
+        
+        .timer-inputs {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .input-group label {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #d4af37;
+        }
+        
+        .input-group input {
+            width: 80px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            background: rgba(245, 230, 208, 0.2);
+            color: #f5e6d0;
+            text-align: center;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Notes Styles */
+        .notes-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+        
+        /* Scrollbar styling */
+        .notes-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .notes-list::-webkit-scrollbar-track {
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 4px;
+        }
+        
+        .notes-list::-webkit-scrollbar-thumb {
+            background: rgba(139, 69, 19, 0.4);
+            border-radius: 4px;
+        }
+        
+        .note-item {
+            background: rgba(139, 69, 19, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+        
+        .note-item:hover {
+            background: rgba(139, 69, 19, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .note-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #e0b354;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+        }
+        
+        .note-preview {
+            font-size: 0.9rem;
+            color: #d4af37;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .note-meta {
+            font-size: 0.7rem;
+            color: #8b5a2b;
+            margin-top: 5px;
+        }
+        
+        .note-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .note-editor input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            background: rgba(245, 230, 208, 0.1);
+            color: #f5e6d0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .note-editor textarea {
+            height: 100px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            background: rgba(245, 230, 208, 0.1);
+            color: #f5e6d0;
+            resize: vertical;
+            backdrop-filter: blur(5px);
+        }
+        
+        .note-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Export Button */
+        .export-btn {
+            margin-top: 15px;
+            background: linear-gradient(to bottom, #5a3826, #3a2319);
+            color: #e0b354;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .export-btn:hover {
+            background: linear-gradient(to bottom, #6a4836, #4a3329);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #8b5a2b;
+            font-size: 0.9rem;
+            background: rgba(139, 69, 19, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        
+        /* Animation for timer complete */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .timer-complete {
+            animation: pulse 0.5s infinite;
+            color: #f55 !important;
+        }
+        
+        /* Clock numbers */
+        .clock-number {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #7a4f25;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+        }
+        
+        .number-12 { transform: rotate(0deg); }
+        .number-1 { transform: rotate(30deg); }
+        .number-2 { transform: rotate(60deg); }
+        .number-3 { transform: rotate(90deg); }
+        .number-4 { transform: rotate(120deg); }
+        .number-5 { transform: rotate(150deg); }
+        .number-6 { transform: rotate(180deg); }
+        .number-7 { transform: rotate(210deg); }
+        .number-8 { transform: rotate(240deg); }
+        .number-9 { transform: rotate(270deg); }
+        .number-10 { transform: rotate(300deg); }
+        .number-11 { transform: rotate(330deg); }
+        
+        /* Royal seal decoration */
+        .royal-seal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .royal-seal i {
+            font-size: 24px;
+            color: #d4af37;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <div class="royal-seal">
+        <i class="fas fa-crown"></i>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const VintageClock = () => {
+            const [time, setTime] = useState(new Date());
+            
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setTime(new Date());
+                }, 1000);
+                
+                return () => clearInterval(timer);
+            }, []);
+            
+            const hours = time.getHours() % 12;
+            const minutes = time.getMinutes();
+            const seconds = time.getSeconds();
+            
+            const hourDegrees = (hours * 30) + (minutes * 0.5);
+            const minuteDegrees = (minutes * 6) + (seconds * 0.1);
+            const secondDegrees = seconds * 6;
+            
+            const formatTime = (value) => value < 10 ? `0${value}` : value;
+            
+            // Create clock numbers
+            const numbers = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            
+            return (
+                <div className="clock-section">
+                    <div className="clock-container">
+                        <div className="clock-face">
+                            <div className="clock-inner">
+                                {numbers.map(num => (
+                                    <div key={num} className={`clock-number number-${num}`}>
+                                        {num}
+                                    </div>
+                                ))}
+                                <div className="clock-brand">CHRONOSFLOW</div>
+                                <div className="hand hour-hand" style={{ transform: `translateX(-50%) rotate(${hourDegrees}deg)` }}></div>
+                                <div className="hand minute-hand" style={{ transform: `translateX(-50%) rotate(${minuteDegrees}deg)` }}></div>
+                                <div className="hand second-hand" style={{ transform: `translateX(-50%) rotate(${secondDegrees}deg)` }}></div>
+                                <div className="center-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="digital-time">
+                        {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)} {time.getHours() >= 12 ? 'PM' : 'AM'}
+                    </div>
+                </div>
+            );
+        };
+
+        const Timer = () => {
+            const [hours, setHours] = useState(0);
+            const [minutes, setMinutes] = useState(0);
+            const [seconds, setSeconds] = useState(0);
+            const [timeLeft, setTimeLeft] = useState(0);
+            const [isRunning, setIsRunning] = useState(false);
+            const [isComplete, setIsComplete] = useState(false);
+            const timerRef = useRef(null);
+            
+            useEffect(() => {
+                if (isRunning && timeLeft > 0) {
+                    timerRef.current = setTimeout(() => {
+                        setTimeLeft(timeLeft - 1);
+                    }, 1000);
+                } else if (timeLeft === 0 && isRunning) {
+                    setIsRunning(false);
+                    setIsComplete(true);
+                }
+                
+                return () => clearTimeout(timerRef.current);
+            }, [isRunning, timeLeft]);
+            
+            const startTimer = () => {
+                if (hours === 0 && minutes === 0 && seconds === 0) return;
+                
+                const totalSeconds = (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseInt(seconds);
+                setTimeLeft(totalSeconds);
+                setIsRunning(true);
+                setIsComplete(false);
+            };
+            
+            const pauseTimer = () => {
+                setIsRunning(false);
+            };
+            
+            const resetTimer = () => {
+                setIsRunning(false);
+                setTimeLeft(0);
+                setIsComplete(false);
+            };
+            
+            const formatTime = (time) => {
+                const h = Math.floor(time / 3600);
+                const m = Math.floor((time % 3600) / 60);
+                const s = time % 60;
+                
+                return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            };
+            
+            return (
+                <div className="card">
+                    <h2 className="card-title"><i className="fas fa-hourglass-half"></i> Productivity Timer</h2>
+                    
+                    <div className={`timer-display ${isComplete ? 'timer-complete' : ''}`}>
+                        {isComplete ? "Time's Up!" : formatTime(timeLeft)}
+                    </div>
+                    
+                    <div className="timer-controls">
+                        <button className="btn" onClick={startTimer} disabled={isRunning}>
+                            <i className="fas fa-play"></i> Start
+                        </button>
+                        <button className="btn" onClick={pauseTimer} disabled={!isRunning}>
+                            <i className="fas fa-pause"></i> Pause
+                        </button>
+                        <button className="btn btn-danger" onClick={resetTimer}>
+                            <i className="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                    
+                    <div className="timer-inputs">
+                        <div className="input-group">
+                            <label>Hours</label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="23" 
+                                value={hours} 
+                                onChange={(e) => setHours(e.target.value)} 
+                                disabled={isRunning}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>Minutes</label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="59" 
+                                value={minutes} 
+                                onChange={(e) => setMinutes(e.target.value)} 
+                                disabled={isRunning}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>Seconds</label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="59" 
+                                value={seconds} 
+                                onChange={(e) => setSeconds(e.target.value)} 
+                                disabled={isRunning}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Notes = () => {
+            const [notes, setNotes] = useState(() => {
+                // Load notes from localStorage if available
+                const savedNotes = localStorage.getItem('chronosflow-notes');
+                return savedNotes ? JSON.parse(savedNotes) : [
+                    { 
+                        id: 1, 
+                        title: 'Welcome Note', 
+                        content: 'Welcome to ChronosFlow! Use this app to manage your time and tasks effectively.',
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    },
+                    { 
+                        id: 2, 
+                        title: 'Meeting Notes', 
+                        content: 'Discuss project timeline with team at 3 PM tomorrow.',
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    }
+                ];
+            });
+            
+            const [selectedNote, setSelectedNote] = useState(null);
+            const [title, setTitle] = useState('');
+            const [content, setContent] = useState('');
+            
+            // Save notes to localStorage whenever they change
+            useEffect(() => {
+                localStorage.setItem('chronosflow-notes', JSON.stringify(notes));
+            }, [notes]);
+            
+            const createNewNote = () => {
+                setSelectedNote(null);
+                setTitle('');
+                setContent('');
+            };
+            
+            const saveNote = () => {
+                if (!title.trim()) return;
+                
+                const now = new Date().toISOString();
+                
+                if (selectedNote) {
+                    // Update existing note
+                    setNotes(notes.map(note => 
+                        note.id === selectedNote.id 
+                            ? { ...note, title, content, updatedAt: now } 
+                            : note
+                    ));
+                } else {
+                    // Create new note
+                    const newNote = {
+                        id: Date.now(),
+                        title,
+                        content,
+                        createdAt: now,
+                        updatedAt: now
+                    };
+                    setNotes([...notes, newNote]);
+                }
+                
+                setSelectedNote(null);
+                setTitle('');
+                setContent('');
+            };
+            
+            const deleteNote = () => {
+                if (!selectedNote) return;
+                
+                setNotes(notes.filter(note => note.id !== selectedNote.id));
+                setSelectedNote(null);
+                setTitle('');
+                setContent('');
+            };
+            
+            const selectNote = (note) => {
+                setSelectedNote(note);
+                setTitle(note.title);
+                setContent(note.content);
+            };
+            
+            const exportNotes = () => {
+                // Create a text blob with all notes and timestamps
+                let exportData = "CHRONOSFLOW NOTES EXPORT\n";
+                exportData += "=======================\n\n";
+                
+                notes.forEach(note => {
+                    exportData += `TITLE: ${note.title}\n`;
+                    exportData += `CREATED: ${new Date(note.createdAt).toLocaleString()}\n`;
+                    exportData += `UPDATED: ${new Date(note.updatedAt).toLocaleString()}\n`;
+                    exportData += `CONTENT:\n${note.content}\n`;
+                    exportData += "-----------------------\n\n";
+                });
+                
+                // Create download link
+                const blob = new Blob([exportData], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `chronosflow-notes-${new Date().toISOString().slice(0, 10)}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            };
+            
+            const formatDate = (dateString) => {
+                return new Date(dateString).toLocaleString();
+            };
+            
+            return (
+                <div className="card">
+                    <h2 className="card-title"><i className="fas fa-sticky-note"></i> Task Notes</h2>
+                    
+                    <div className="notes-container">
+                        <div className="notes-list">
+                            {notes.map(note => (
+                                <div 
+                                    key={note.id} 
+                                    className="note-item"
+                                    onClick={() => selectNote(note)}
+                                >
+                                    <div className="note-title">{note.title}</div>
+                                    <div className="note-preview">{note.content}</div>
+                                    <div className="note-meta">Updated: {formatDate(note.updatedAt)}</div>
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <div className="note-editor">
+                            <input 
+                                type="text" 
+                                placeholder="Note title" 
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <textarea 
+                                placeholder="Note content" 
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                            ></textarea>
+                            <div className="note-actions">
+                                <button className="btn" onClick={createNewNote}>
+                                    <i className="fas fa-plus"></i> New
+                                </button>
+                                <button className="btn" onClick={saveNote}>
+                                    <i className="fas fa-save"></i> Save
+                                </button>
+                                {selectedNote && (
+                                    <button className="btn btn-danger" onClick={deleteNote}>
+                                        <i className="fas fa-trash"></i> Delete
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <button className="btn export-btn" onClick={exportNotes}>
+                            <i className="fas fa-download"></i> Export All Notes
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const ChronosFlow = () => {
+            return (
+                <div className="container">
+                    <header>
+                        <h1>ChronosFlow</h1>
+                        <p className="tagline">Royal Vintage Productivity Hub - Manage Your Time in Style</p>
+                    </header>
+                    
+                    <div className="app-content">
+                        <VintageClock />
+                        <div className="tools-section">
+                            <Timer />
+                            <Notes />
+                        </div>
+                    </div>
+                    
+                    <footer>
+                        <p>Built with React • ChronosFlow &copy; 2023</p>
+                        <p>Your data is stored locally in your browser</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ChronosFlow />);
+    </script>
+</body>
+</html>
